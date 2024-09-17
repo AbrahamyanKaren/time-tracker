@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./assets/icons/style.css"/>
+    <link rel="stylesheet" href="./assets/fonts/stylesheet.css"/>
+    <link rel="stylesheet" href="./css/style.css"/>
+</head>
+<body>
+    <main class="main">
+        <div class="tracker">
+            <h1 class="tracker__title">Time Tracker</h1>
+            <form class="tracker__form" id="trackerForm">
+                <label>
+                    <input class="tracker__form_input" type="text" name="trackerValue" placeholder="Enter time list" autocomplete="off" required>
+                </label>
+            </form>
+            <div class="tracker__data"></div>
+            <div class="tracker__footer">
+                <div class="tracker__result-wrapper">
+                    <p class="tracker__result">Total Time:</p>
+                    <span id="totalTime">0</span>
+                    <p class="tracker__result">Remaining Time:</p>
+                    <span id="remainingTime">0</span>
+                </div>
+                <button type="submit" class="tracker__button"  form="trackerForm">Track</button>
+            </div>
+        </div>
+
+    </main>
+    <script src="./index.js"></script>
+</body>
+</html>

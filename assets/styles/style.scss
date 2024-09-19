@@ -38,14 +38,25 @@ body {
   display: flex;
   flex-direction: column;
   gap: .8rem;
+  max-width: 90%;
   min-height: 28rem;
   padding: 1.6rem;
   width: 48rem;
   &__title {
     color: rgba(var(--colorDark), 1);
+    font-size: 1.6rem;
   }
   &__form {
+    display: flex;
+    gap: .8rem;
     width: 100%;
+
+    &_label {
+      display: inline-block;
+      margin-bottom: .4rem;
+      text-align: center;
+    }
+
     &_input {
       outline: none;
       border: .1rem solid rgba(var(--colorDark), 1);
@@ -59,6 +70,9 @@ body {
       height: 3.2rem;
       padding-inline: .8rem;
       width: 100%;
+      &::placeholder {
+        color: rgba(var(--colorDark), .4);
+      }
     }
   }
 

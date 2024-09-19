@@ -2,12 +2,39 @@
 const totalTimeElement = document.getElementById('totalTime')
 const remainingTimeElement = document.getElementById('remainingTime')
 const trackerForm = document.getElementById('trackerForm')
-const trackerElement = document.getElementById('trackerValue')
-const trackerValue = trackerElement.getAttribute('name')
+const inputElements = document.querySelectorAll('.tracker__form_input')
+
+
+// functions to handle value paste
+const handleSingleValuePaste = (inputElement, value) => {
+  inputElement.value = value
+}
+const handleMultipleValuesPaste = (values, numValues) => {
+  inputElements.forEach((inputElement, index) => {
+    inputElement.value = index < numValues ? values[index] : ''
+  })
+}
+const handlePaste = (event) => {
+  event.preventDefault()
+
+  const pasteData = event.clipboardData.getData('text').trim()
+  const values = pasteData.split(/\s+/)
+  const numValues = Math.min(values.length, inputElements.length)
+
+  if (values.length === 1) {
+    handleSingleValuePaste(event.target, values[0])
+  } else {
+    handleMultipleValuesPaste(values, numValues)
+  }
+}
+inputElements.forEach(input => {
+  input.addEventListener('paste', handlePaste)
+})
+
+
 
 
 // time tracking functions
-
 const timeToMinutes = (time) => {
   const [hours, minutes] = time.split(':').map(Number)
 
@@ -37,6 +64,18 @@ const subtractFrom45Hours = (timeArray) => {
 
 
 // form actions functions
+const getInputValuesArray = (formData) => {
+  const inputValuesArray = []
+
+  inputElements.forEach(input => {
+    const value = formData.get(input.name)
+    if (value) {
+      inputValuesArray.push(value)
+    }
+  })
+
+  return inputValuesArray
+}
 
 const resetFormFields = (form) => {
   const inputs = form.querySelectorAll('input, select, textarea')
@@ -67,10 +106,9 @@ const handleFormSubmit = (event) => {
   event.preventDefault()
 
   const formData = new FormData(event.target)
-  const value = formData.get(trackerValue)
-  const timesArray = value.split('\t')
+  const inputValuesArray = getInputValuesArray(formData)
 
-  processTimes(timesArray)
+  processTimes(inputValuesArray)
 }
 
 const handleFormReset = (event) => {

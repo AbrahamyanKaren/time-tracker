@@ -3,6 +3,7 @@ const totalTimeElement = document.getElementById('totalTime')
 const remainingTimeElement = document.getElementById('remainingTime')
 const trackerForm = document.getElementById('trackerForm')
 const inputElements = document.querySelectorAll('.tracker__form_input')
+const defaultInputValue = document.querySelector('.tracker__form_input').value
 
 
 // functions to handle value paste
@@ -30,8 +31,6 @@ const handlePaste = (event) => {
 inputElements.forEach(input => {
   input.addEventListener('paste', handlePaste)
 })
-
-
 
 
 // time tracking functions
@@ -64,13 +63,22 @@ const subtractFrom45Hours = (timeArray) => {
 
 
 // form actions functions
+const validateTimeFormat = (time) => {
+  const timePattern = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/
+  return timePattern.test(time)
+}
+
 const getInputValuesArray = (formData) => {
   const inputValuesArray = []
 
   inputElements.forEach(input => {
     const value = formData.get(input.name)
-    if (value) {
+    if (value && validateTimeFormat(value)) {
       inputValuesArray.push(value)
+    } else {
+      console.log('Error: ', value )
+      resetFormFields(trackerForm)
+      processTimes()
     }
   })
 
@@ -83,7 +91,7 @@ const resetFormFields = (form) => {
     if (input.type === 'checkbox' || input.type === 'radio') {
       input.checked = false
     } else {
-      input.value = ''
+      input.value = defaultInputValue
     }
   })
 }

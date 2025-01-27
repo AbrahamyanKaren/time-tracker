@@ -3,7 +3,7 @@ const totalTimeElement = document.getElementById('totalTime')
 const remainingTimeElement = document.getElementById('remainingTime')
 const trackerForm = document.getElementById('trackerForm')
 const inputElements = document.querySelectorAll('.tracker__form_input')
-const defaultInputValue = document.querySelector('.tracker__form_input').value
+const defaultInputValue = '00:00'
 
 
 // functions to handle value paste
@@ -77,7 +77,8 @@ const getInputValuesArray = (formData) => {
       inputValuesArray.push(value)
     } else {
       console.log('Error: ', value )
-      resetFormFields(trackerForm)
+      inputValuesArray.push(defaultInputValue)
+      resetFormField(input)
       processTimes()
     }
   })
@@ -85,15 +86,17 @@ const getInputValuesArray = (formData) => {
   return inputValuesArray
 }
 
+const resetFormField = (input) => {
+  if (input.type === 'checkbox' || input.type === 'radio') {
+    input.checked = false
+  } else {
+    input.value = null
+  }
+}
+
 const resetFormFields = (form) => {
   const inputs = form.querySelectorAll('input, select, textarea')
-  inputs.forEach(input => {
-    if (input.type === 'checkbox' || input.type === 'radio') {
-      input.checked = false
-    } else {
-      input.value = defaultInputValue
-    }
-  })
+  inputs.forEach(input => resetFormField(input))
 }
 
 const updateDisplayedTimes = (totalTime, remainingTime) => {

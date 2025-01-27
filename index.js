@@ -41,10 +41,14 @@ const timeToMinutes = (time) => {
 }
 
 const minutesToTime = (minutes) => {
+  const isNegative = minutes < 0
+  minutes = Math.abs(minutes)
+
   const hours = Math.floor(minutes / 60)
   const mins = minutes % 60
 
-  return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`
+  const time = `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`
+  return isNegative ? `-${time}` : time
 }
 
 const getTotalTime = (timeArray) => {
@@ -73,13 +77,12 @@ const getInputValuesArray = (formData) => {
 
   inputElements.forEach(input => {
     const value = formData.get(input.name)
+
     if (value && validateTimeFormat(value)) {
       inputValuesArray.push(value)
     } else {
-      console.log('Error: ', value )
       inputValuesArray.push(defaultInputValue)
       resetFormField(input)
-      processTimes()
     }
   })
 
